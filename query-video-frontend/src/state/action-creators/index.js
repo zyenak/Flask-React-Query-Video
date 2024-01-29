@@ -24,3 +24,22 @@ export const setQuery = (query) => {
         })
     }
 };
+
+export const setFile = (file) => {
+    return (dispatch) => {
+        dispatch({
+            type: 'SET_FILE',
+            payload: file
+        })
+    }
+};
+
+export const setProgress = (progress) => {
+    return (dispatch) => {
+        dispatch({
+            type: 'SET_PROGRESS',
+            payload: progress
+        })
+    }
+};
+

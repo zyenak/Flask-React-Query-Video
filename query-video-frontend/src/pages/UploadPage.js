@@ -2,22 +2,19 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../state/index';
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Upload from "../components/Upload";
 
 const UploadPage = () => {
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(null);
-  //const [query, setQuery] = useState("");
-  //const [uploadCompleted, setUploadCompleted] = useState(false);
-  //const [videoUrl, setVideoUrl] = useState(null);
-  const videoUrl = useSelector((state) => state.videoUrl || null);
   const uploadCompleted = useSelector((state) => state.uploadCompleted || false);
-  const query = useSelector((state) => state.query || "");
 
   const dispatch = useDispatch();
-  const { setVideoUrl, setUploadCompleted, setQuery } = bindActionCreators(actionCreators, dispatch);
+  const { setUploadCompleted } = bindActionCreators(actionCreators, dispatch);
+
 
   const navigate = useNavigate();
 
@@ -63,7 +60,6 @@ const UploadPage = () => {
       alert("Please select a file before uploading.");
       return;
     }
-
     
     const formData = new FormData();
     formData.append("file", file);
@@ -79,7 +75,8 @@ const UploadPage = () => {
         },
       });
       console.log("Upload successful:", response.data);
-      
+
+
       setUploadCompleted(true);
       console.log()
       setError(null);
@@ -105,18 +102,7 @@ const UploadPage = () => {
             onDragOver={handleDragOver}
             onDrop={handleDrop}
           >
-            <div className="bg-blue-100 rounded-lg p-8 mb-4 mt-4 w-38 h-38 flex flex-col items-center justify-center">
-              <div className="relative w-24 h-24">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-20 h-20 rounded-full border-4 border-blue-500"></div>
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center">
-                    <div className="ml-2 w-0 h-0 border-t-[20px] border-t-transparent border-l-[35px] border-l-blue-500 border-b-[20px] border-b-transparent"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Upload />
             <p className="text-lg font-bold">Drag and Drop video/audio files to upload</p>
             <p className="text-base mb-4">Your videos will be private and will not be used by third-party</p>
             <label htmlFor="fileInput" className="cursor-pointer bg-transparent text-blue-700 border border-blue-700 px-4 py-2 rounded-lg hover:bg-blue-700 hover:text-white transition duration-300 ease-in-out">
@@ -144,6 +130,7 @@ const UploadPage = () => {
               </div>
             </div>
           )}
+
 
 
 
